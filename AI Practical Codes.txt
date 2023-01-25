@@ -1,0 +1,386 @@
+-------------------Practical NO 1--------------------------------
+----------basic_chat.aiml------------------
+<aiml version="1.0.1" encoding="UTF-8">
+    <category>
+        <pattern>HELLO *</pattern>
+        <template>
+            Well, Hello Students Of Sonawane College!
+        </template>
+    </category>
+
+    <category>
+        <pattern>WHAT ARE YOU</pattern>
+        <template>
+            I am a Bot, and I'm silly!
+        </template>
+    </category>
+
+    <category>
+        <pattern>WHAT DO YOU DO</pattern>
+        <template>
+            I am here to annoy you!
+        </template>
+    </category>
+
+    <category>
+        <pattern>WHO I AM</pattern>
+        <template>
+            You are Student of Sonawane College, and you are working on Web Developer...
+        </template>
+    </category>
+</aiml>
+-------------------basic_chat.aiml-----------------
+
+------------------std-startup.xml------------------
+<aiml version="1.0.1" encoding="UTF-8">
+    <category>
+        <pattern>LOAD AIML B</pattern>
+        <template>
+            <learn>basic_chat.aiml</learn>
+        </template>
+    </category>
+</aiml>
+------------------std-startup.xml------------------
+
+
+------------------Practical_No_1.py------------------
+import aiml
+
+kernel = aiml.Kernel()
+kernel.learn("std-startup.xml")
+kernel.respond("Load aiml b")
+
+while True:
+    input_text = input("> Human: ")
+    response = kernel.respond(input_text)
+    print("> Bot: "+ response)
+	
+------------------Practical_No_1.py------------------
+
+
+
+-------------------Practical NO 2--------------------------------
+
+----------Practical2_chat.aiml------------------
+<aiml version="1.0.1" encoding="UTF-8">
+    <category>
+        <pattern>HELLO *</pattern>
+        <template>
+            Hello User
+        </template>
+    </category>
+
+    <category>
+        <pattern>SUNDAY</pattern>
+        <template>
+            The day of the week before Monday and following Saturday,
+            Observed by christians as a day of rest and religious worship and (together with Saturday) 
+            farming part of the weekend.
+        </template>
+    </category>
+
+    <category>
+        <pattern>MONDAY</pattern>
+        <template>
+            The day of the week before Tuesday and following Sunday
+        </template>
+    </category>
+
+    <category>
+        <pattern>TUESDAY</pattern>
+        <template>
+            The day of the week before Wednesday and following Monday
+        </template>
+    </category>
+
+    <category>
+        <pattern>WEDNESDAY</pattern>
+        <template>
+            The day of the week before Thursday and following Tuesday
+        </template>
+    </category>
+
+    <category>
+        <pattern>THURSDAY</pattern>
+        <template>
+            The day of the week before Friday and following Wednesday
+        </template>
+    </category>
+    
+    <category>
+        <pattern>FRIDAY</pattern>
+        <template>
+            The day of the week before Saturday and following Thursday
+        </template>
+    </category>
+
+    <category>
+        <pattern>SATURDAY</pattern>
+        <template>
+            The day of the week before Sunday and following Friday
+        </template>
+    </category>
+</aiml>
+
+----------Practical2_chat.aiml------------------
+
+------------------std2-startup.xml------------------
+<aiml version="1.0.1" encoding="UTF-8">
+    <category>
+        <pattern>LOAD PRACTICAL NO 2</pattern>
+        <template>
+            <learn>Practical2_chat.aiml</learn>
+        </template>
+    </category>
+</aiml>
+------------------std2-startup.xml------------------
+
+------------------Practical_No_2.py------------------
+import aiml
+
+kernel = aiml.Kernel()
+kernel.learn("std2-startup.xml")
+kernel.respond("Load Practical No 2")
+
+while True:
+    input_text = input("> Human: ")
+    response = kernel.respond(input_text)
+    print("> Bot: "+ response)
+------------------Practical_No_2.py------------------
+
+
+-------------------Practical NO 3--------------------------------
+def drug_user(
+        prob_th=0.8,
+        sensitivity=0.79,
+        specificity=0.79,
+        prevelance=0.02,
+        verbose=True):
+
+    p_user = prevelance
+    p_non_user = 1 - prevelance
+    p_pos_user = sensitivity
+    p_neg_user = specificity
+    p_pos_non_user = 1 - specificity
+    
+    num =  p_pos_user * p_user
+    den = p_pos_user * p_user + p_pos_non_user *  p_non_user
+
+    prob = num / den
+
+    if verbose:
+        if prob > prob_th:
+            print("The test-taker Could be an user")
+        else:
+            print("The test-taker may not be an user")
+
+    return prob
+
+print("Sonawane College")
+p=drug_user(prob_th=0.5, sensitivity=0.97, specificity=0.95, prevelance=0.005)
+print("Probability of the test-taker being  a drug user is: ", round(p, 3))
+
+
+-------------------Practical NO 4--------------------------------
+def conditional():
+    p_stats =0.65
+    p_codewstats = 0.80
+    p_codewostats = 0.40
+    prob_both = p_stats * p_codewstats
+    print("Probablity of passing of both: ", round(prob_both,3))
+    prob_code = (prob_both) + ((1-p_stats)*p_codewostats)
+    print("Probablity of passing only coding", round(prob_code,3))
+    stats_given_code = prob_both/prob_code
+    print("Conditional Probablity: ", round(stats_given_code,3))
+print("For Frank")
+conditional()
+
+
+-------------------Practical NO 5--------------------------------
+man(lou)
+man(pete)
+man(ian)
+man(peter)
+
+women(pauline)
+women(cathy)
+women(lucy)
+
+parent(ian,lucy)
+parent(ian,peter)
+parent(cathy,ian)
+parent(pete,ian)
+parent(lou,pete)
+parent(lou,pauline)
+
+mother(X,Y):- women(x),parent(X,Y),(X\=Y)
+father(X,Y):- man(X),parent(X,Y),(X\=Y)
+
+sibing(X,Y):- parent(Z,X),parent(Z,y),(X\=Y)
+brother(X,Y):- man(X), sibling(X,Y),(X\=Y)
+sister(X,Y):- women(X), sibling(X,Y), (X\=Y)
+
+grandfather(X,Y):- father(X,Z),parent(Z,Y), (X\=Y)
+grandmother(X,Y):- mother(X,Z),parent(Z,Y), (X\=Y)
+
+ancestor(X,Y):- parent(X,Y),(X\=Y)
+ancestor(X,Y):- parent(X,Z),ancestor(Z,Y), (X\=Y)
+
+
+-------------------Practical NO 6--------------------------------
+import numpy as np
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+
+quality = ctrl.Antecedent(np.arange(0, 11, 1), 'quality')
+service = ctrl.Antecedent(np.arange(0, 11, 1), 'service')
+tip = ctrl.Consequent(np.arange(0, 26, 1), 'tip')
+quality.automf(3)
+service.automf(3)
+
+tip['low'] = fuzz.trimf(tip.universe, [0, 0, 13])
+tip['medium'] = fuzz.trimf(tip.universe, [0, 13, 25])
+tip['high'] = fuzz.trimf(tip.universe, [13, 25, 25])
+
+quality['average'].view()
+service.view()
+tip.view()
+
+rule1 = ctrl.Rule(quality['poor'] | service['poor'], tip['low'])
+rule2 = ctrl.Rule(service['average'], tip['medium'])
+rule3 = ctrl.Rule(service['good'] | quality['good'], tip['high'])
+rule1.view()
+
+tipping_ctrl = ctrl.ControlSystem([rule1, rule2, rule3])
+tipping = ctrl.ControlSystemSimulation(tipping_ctrl)
+tipping.input['quality'] = 6.5
+tipping.input['service'] = 9.8
+tipping.compute()
+print(tipping.output['tip'])
+tip.view(sim=tipping)
+
+
+
+-------------------Practical NO 7A--------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn import datasets
+
+dataset = pd.read_csv("Iris.csv")
+dataset.describe()
+
+x = dataset.iloc[:, [0, 1, 2, 3]].values
+y = dataset.iloc[:, 4].values
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.25, random_state = 0)
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
+
+classfier = LogisticRegression(random_state = 0, solver = 'lbfgs', multi_class = 'auto')
+classfier.fit(x_train, y_train)
+
+y_pred = classfier.predict(x_test)
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+import seaborn as sns
+import pandas as pd
+
+ax = plt.axes()
+df_cm = cm
+sns.heatmap(df_cm, annot = True, annot_kws = {'size': 30}, fmt = 'd', cmap = 'Blues', ax = ax)
+ax.set_title('Confusion Matrix')
+plt.show()
+
+-------------------Practical NO 7B--------------------------------
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+customer_data = pd.read_csv("Mall_Customer.csv")
+customer_data.shape 
+customer_data.head() 
+data = customer_data.iloc[:, 3:5].values
+data = customer_data.iloc[:, 3:5].values
+
+import scipy.cluster.hierarchy as shc
+plt.figure(figsize=(10, 7))
+plt.title("Customer Dendograms")
+dend = shc.dendrogram(shc.linkage(data, method='ward'))
+
+from sklearn.cluster import AgglomerativeClustering
+cluster = AgglomerativeClustering(n_clusters=5, affinity='euclidean', linkage='ward')
+cluster.fit_predict(data)
+
+plt.figure(figsize=(10, 7))
+plt.scatter(data[:, 0], data[:, 1], c=cluster.labels_, cmap='rainbow')
+plt.show()
+
+-------------------Practical NO 8--------------------------------
+from numpy import where
+from matplotlib import pyplot
+from sklearn.datasets import make_classification
+
+x, y = make_classification(n_samples=1000, n_features=2, n_informative=2, n_redundant=0, n_clusters_per_class=1, random_state=4)
+
+for class_value in range(2):
+    row_ix = where(y == class_value)
+    pyplot.scatter(x[row_ix, 0], x[row_ix, 1])
+
+pyplot.show()
+
+
+-------------------Practical NO 9--------------------------------
+
+import collections
+
+def bfs(graph, root):
+    visited, queue = set(), collections.deque([root])
+    visited.add(root)
+
+    while queue:
+        vertex = queue.popleft()
+        print(str(vertex) + " ", end="")
+
+        for neighbour in graph[vertex]:
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append(neighbour)
+
+if __name__ == '__main__':
+    graph = {0: [1, 2], 1: [2], 2: [3], 3:[1, 2]}
+    print("Following is Breadth First Traversal : ")
+    bfs(graph, 0)
+	
+	
+	
+-------------------Practical NO 10--------------------------------
+	
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(start)
+
+    print(start)
+    for next in graph[start] - visited:
+        dfs(graph, next, visited)
+    return visited
+
+graph = {'0': set(['1', '2']), 
+         '1': set(['0', '3', '4']), 
+         '2': set(['0']), 
+         '3': set(['1']),
+         '4': set(['2', '3'])
+        }
+print("Following is Depth First Traversal : ")
+dfs(graph, '0')
